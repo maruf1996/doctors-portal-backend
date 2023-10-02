@@ -1,7 +1,11 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { DoctorService } from './doctors.services'
 
-const createDoctor = async (req: Request, res: Response) => {
+const createDoctor = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const data = req.body
     const result = await DoctorService.createDoctor(data)
@@ -11,7 +15,7 @@ const createDoctor = async (req: Request, res: Response) => {
       data: result,
     })
   } catch (error) {
-    res.send(error)
+    next(error)
   }
 }
 
