@@ -2,6 +2,7 @@
 import express from 'express'
 import { AdminRoutes } from '../modules/Admin/Admin.route'
 import { AppointmentRoutes } from '../modules/Appointment/Appointment.route'
+import { authRoutes } from '../modules/Auth/Auth.route'
 import { AvailableDoctorRoutes } from '../modules/AvailableDoctor/AvailableDoctor.route'
 import { AvailableServiceRoutes } from '../modules/AvailableService/AvailableService.route'
 import { DoctorRoutes } from '../modules/Doctors/doctors.route'
@@ -26,6 +27,7 @@ const moduleRoutes: any[] = [
   { path: '/timeSlots', route: TimeSlotRoutes },
   { path: '/payments', route: PaymentRoutes },
   { path: '/admins', route: AdminRoutes },
+  { path: '/auth', route: authRoutes },
 ]
 
 moduleRoutes.forEach(route => router.use(route.path, route.route))

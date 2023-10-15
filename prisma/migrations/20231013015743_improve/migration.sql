@@ -1,4 +1,32 @@
 -- CreateTable
+CREATE TABLE "doctors" (
+    "id" TEXT NOT NULL,
+    "full_name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone_number" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'doctor',
+    "qualification" TEXT NOT NULL,
+    "specialization_Id" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "is_password_reset" BOOLEAN NOT NULL DEFAULT false,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "doctors_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "specializations" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "specializations_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "patients" (
     "id" TEXT NOT NULL,
     "full_name" TEXT NOT NULL,
@@ -15,11 +43,11 @@ CREATE TABLE "patients" (
 -- CreateTable
 CREATE TABLE "medical_profile" (
     "id" TEXT NOT NULL,
-    "profile_picture" TEXT NOT NULL,
+    "profile_picture" TEXT,
     "address" TEXT NOT NULL,
     "date_of_birth" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
-    "medical_history" TEXT NOT NULL,
+    "medical_history" TEXT,
     "emergency_contact" TEXT NOT NULL,
     "profile_status" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -121,6 +149,9 @@ CREATE TABLE "admin" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "doctors_email_key" ON "doctors"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "patients_email_key" ON "patients"("email");
 
 -- CreateIndex
@@ -149,6 +180,9 @@ CREATE UNIQUE INDEX "admin_email_key" ON "admin"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "admin_phone_number_key" ON "admin"("phone_number");
+
+-- AddForeignKey
+ALTER TABLE "doctors" ADD CONSTRAINT "doctors_specialization_Id_fkey" FOREIGN KEY ("specialization_Id") REFERENCES "specializations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "medical_profile" ADD CONSTRAINT "medical_profile_patient_id_fkey" FOREIGN KEY ("patient_id") REFERENCES "patients"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
